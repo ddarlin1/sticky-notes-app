@@ -74,9 +74,23 @@ class App extends Component {
   };
 
   removeNote = (noteId) => {
+    /* remove note by id of note that the user clicked on */
     const updatedNotes = this.state.notes.filter((note) => note.id !== noteId);
     this.setState({ notes: updatedNotes });
   };
+
+  componentDidUpdate() {
+    const stringifiedNotes = JSON.stringify(this.state.notes);
+    localStorage.setItem("savedNotes", stringifiedNotes);
+  }
+
+  componentDidMount() {
+    const stringifiedNotes = localStorage.getItem("savedNotes");
+    if (stringifiedNotes) {
+      const savedNotes = JSON.parse(stringifiedNotes);
+      this.setState({ notes: savedNotes });
+    }
+  }
 
   render() {
     return (
